@@ -116,25 +116,25 @@ def archive(dir_cfg, all_jobs):
     #
     # Pick first archive dir with sufficient space
     #
-    archdir_freebytes = get_archdir_freebytes(dir_cfg.archive)
-    if not archdir_freebytes:
-        return(False, 'No free archive dirs found.')
+    # archdir_freebytes = get_archdir_freebytes(dir_cfg.archive)
+    # if not archdir_freebytes:
+    #     return(False, 'No free archive dirs found.')
     
-    archdir = ''
-    available = [(d, space) for (d, space) in archdir_freebytes.items() if 
-                 space > 1.2 * plot_util.get_k32_plotsize()]
-    if len(available) > 0:
-        index = min(dir_cfg.archive.index, len(available) - 1)
-        (archdir, freespace) = sorted(available)[index]
+    # archdir = ''
+    # available = [(d, space) for (d, space) in archdir_freebytes.items() if 
+    #              space > 1.2 * plot_util.get_k32_plotsize()]
+    # if len(available) > 0:
+    #     index = min(dir_cfg.archive.index, len(available) - 1)
+    #     (archdir, freespace) = sorted(available)[index]
 
-    if not archdir:
-        return(False, 'No archive directories found with enough free space')
+    # if not archdir:
+    #     return(False, 'No archive directories found with enough free space')
     
-    msg = 'Found %s with ~%d GB free' % (archdir, freespace / plot_util.GB)
+    # msg = 'Found %s with ~%d GB free' % (archdir, freespace / plot_util.GB)
+    # msg = 'Send plot to Google Cloud'
 
-    bwlimit = dir_cfg.archive.rsyncd_bwlimit
-    throttle_arg = ('--bwlimit=%d' % bwlimit) if bwlimit else ''
-    cmd = ('rsync %s --remove-source-files -P %s %s' %
-            (throttle_arg, chosen_plot, rsync_dest(dir_cfg.archive, archdir)))
+    # bwlimit = dir_cfg.archive.rsyncd_bwlimit
+    # throttle_arg = ('--bwlimit=%d' % bwlimit) if bwlimit else ''
+    cmd = ('python /chia-blockchain/archive2gcs.py %s' % (chosen_plot))
 
     return (True, cmd)
