@@ -90,8 +90,8 @@ def archive(dir_cfg, all_jobs):
     contention on the plotting dstdir drives.  Returns either (False, <reason>) 
     if we should not execute an archive job or (True, <cmd>) with the archive
     command if we should.'''
-    if dir_cfg.archive is None:
-        return (False, "No 'archive' settings declared in plotman.yaml")
+    # if dir_cfg.archive is None:
+    #     return (False, "No 'archive' settings declared in plotman.yaml")
 
     dir2ph = manager.dstdirs_to_furthest_phase(all_jobs)
     best_priority = -100000000
@@ -135,6 +135,6 @@ def archive(dir_cfg, all_jobs):
 
     # bwlimit = dir_cfg.archive.rsyncd_bwlimit
     # throttle_arg = ('--bwlimit=%d' % bwlimit) if bwlimit else ''
-    cmd = ('python /chia-blockchain/archive2gcs.py %s' % (chosen_plot))
+    cmd = ["python", "/chia-blockchain/archive2gcs.py", chosen_plot]
 
     return (True, cmd)

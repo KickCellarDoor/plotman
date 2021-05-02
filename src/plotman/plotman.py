@@ -5,6 +5,7 @@ import os
 import random
 from shutil import copyfile
 import time
+import subprocess
 
 # Plotman libraries
 from plotman import analyzer, archive, configuration, interactive, manager, plot_util, reporting
@@ -180,7 +181,9 @@ def main():
                     time.sleep(60)
                     jobs = Job.get_running_jobs(cfg.directories.log)
                 firstit = False
-                archive.archive(cfg.directories, jobs)
+                run_archive, cmd = archive.archive(cfg.directories, jobs)
+                if run_archive:
+                    subprocess.run(cmd)
 
         # Debugging: show the destination drive usage schedule
         elif args.cmd == 'dsched':
